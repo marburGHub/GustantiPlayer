@@ -197,16 +197,19 @@ function nextTrack() {
     if (newIndex >= playlist.length) {
         newIndex = 0; // Torna all'inizio (loop)
     }
-    loadTrack(newIndex);
-     // Tenta l'autoplay solo se l'audio non era in pausa prima del cambio traccia (o come preferisci)
-    if (audioPlayer && !audioPlayer.paused) {
-       audioPlayer.play().catch(error => console.error("Errore durante play next:", error));
-       if(playPauseBtn) playPauseBtn.textContent = '⏸️';
-    } else if (audioPlayer) {
-         // Se era in pausa, carica la traccia ma lasciala in pausa
-         // audioPlayer.play()... // Rimuovi o commenta per non avviare automaticamente
-         if(playPauseBtn) playPauseBtn.textContent = '▶️';
+    loadTrack(newIndex); // Carica la nuova traccia
+
+    // --- MODIFICA QUI ---
+    // Tenta di avviare la riproduzione subito dopo il caricamento
+    if (audioPlayer && playPauseBtn) { // Assicurati che gli elementi esistano
+        audioPlayer.play().then(() => {
+            playPauseBtn.textContent = '⏸️'; // Aggiorna il pulsante a Pausa
+        }).catch(error => {
+            console.error("Errore durante autoplay next:", error);
+            playPauseBtn.textContent = '▶️'; // Se fallisce, mostra Play
+        });
     }
+    // --- FINE MODIFICA ---
 }
 
 function prevTrack() {
@@ -215,16 +218,19 @@ function prevTrack() {
     if (newIndex < 0) {
         newIndex = playlist.length - 1; // Vai all'ultima (loop)
     }
-    loadTrack(newIndex);
-    // Tenta l'autoplay solo se l'audio non era in pausa prima del cambio traccia (o come preferisci)
-     if (audioPlayer && !audioPlayer.paused) {
-       audioPlayer.play().catch(error => console.error("Errore durante play prev:", error));
-        if(playPauseBtn) playPauseBtn.textContent = '⏸️';
-    } else if (audioPlayer) {
-        // Se era in pausa, carica la traccia ma lasciala in pausa
-        // audioPlayer.play()... // Rimuovi o commenta per non avviare automaticamente
-        if(playPauseBtn) playPauseBtn.textContent = '▶️';
+    loadTrack(newIndex); // Carica la nuova traccia
+
+    // --- MODIFICA QUI (Opzionale ma consigliata per coerenza) ---
+    // Tenta di avviare la riproduzione subito dopo il caricamento
+    if (audioPlayer && playPauseBtn) { // Assicurati che gli elementi esistano
+        audioPlayer.play().then(() => {
+            playPauseBtn.textContent = '⏸️'; // Aggiorna il pulsante a Pausa
+        }).catch(error => {
+            console.error("Errore durante autoplay prev:", error);
+            playPauseBtn.textContent = '▶️'; // Se fallisce, mostra Play
+        });
     }
+    // --- FINE MODIFICA ---
 }
 
 // --- Funzioni di Utilità (Playlist e Barra Avanzamento) ---
