@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lettore Audio Minimal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="player-container">
+        <div class="cover-art">
+            <img id="albumCover" src="default-cover.png" alt="Copertina Album">
+        </div>
+
+        <div class="track-info">
+            <div id="trackTitle">Titolo Traccia</div>
+            <div id="albumTitle">Nome Album</div>
+        </div>
+
+        <!-- Barra di avanzamento (opzionale ma consigliata) -->
+        <input type="range" id="seekBar" value="0" step="1">
+        <div class="time-display">
+             <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+        </div>
+
+
+        <div class="controls">
+            <button id="prevBtn">⏮</button>
+            <button id="playPauseBtn">▶️</button>
+            <button id="nextBtn">⏭</button>
+        </div>
+
+        <div class="playlist-section">
+            <h2>Playlist</h2>
+            <div class="add-track">
+                 <input type="text" id="newTrackUrl" placeholder="Incolla link diretto Google Drive...">
+                 <button id="addTrackBtn">+</button>
+            </div>
+            <ul id="playlist">
+                <!-- Le tracce verranno aggiunte qui da JavaScript -->
+            </ul>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio> <!-- L'elemento audio nascosto -->
+
+    <!-- Includi la libreria jsmediatags -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+    <!-- Includi il tuo script JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
