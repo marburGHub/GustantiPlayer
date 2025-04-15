@@ -129,6 +129,163 @@ function loadTrack(index) {
 
 // ... (Funzioni per la seek bar: updateSeekBar, resetSeekBar, formatTime rimangono uguali) ...
 
+// INSERISCI QUESTO BLOCCO NEL TUO SCRIPT.JS DOPO LA FUNZIONE loadTrack
+
+function playPauseTrack() {
+    // Assicurati che 'audioPlayer' e 'playPauseBtn' siano definiti all'inizio dello script
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+
+    if (!audioPlayer || !playPauseBtn) {
+        console.error("Elemento audio o pulsante play/pausa non trovato!");
+        return;
+    }
+
+    if (audioPlayer.paused && audioPlayer.src) {
+        audioPlayer.play().catch(error => console.error("Errore durante play:", error));
+        playPauseBtn.textContent = '⏸️';
+    } else {
+        audioPlayer.pause();
+        playPauseBtn.textContent = '▶️';
+    }
+}
+
+function nextTrack() {
+    let newIndex = currentTrackIndex + 1;
+    if (newIndex >= playlist.length) {
+        newIndex = 0; // Torna all'inizio
+    }
+    loadTrack(newIndex);
+    const audioPlayer = document.getElementById('audioPlayer'); // Assicurati sia accessibile
+    const playPauseBtn = document.getElementById('playPauseBtn'); // Assicurati sia accessibile
+    if (audioPlayer && playPauseBtn) {
+       audioPlayer.play().catch(error => console.error("Errore durante play next:", error)); // Auto-play sulla prossima
+       playPauseBtn.textContent = '⏸️';
+    }
+}
+
+function prevTrack() {
+    let newIndex = currentTrackIndex - 1;
+    if (newIndex < 0) {
+        newIndex = playlist.length - 1; // Vai all'ultima
+    }
+    loadTrack(newIndex);
+     const audioPlayer = document.getElementById('audioPlayer'); // Assicurati sia accessibile
+     const playPauseBtn = document.getElementById('playPauseBtn'); // Assicurati sia accessibile
+     if (audioPlayer && playPauseBtn) {
+        audioPlayer.play().catch(error => console.error("Errore durante play prev:", error)); // Auto-play sulla precedente
+        playPauseBtn.textContent = '⏸️';
+     }
+}
+
+function sortPlaylist() {
+    playlist.sort((a, b) => {
+        // Priorità al numero traccia (se presente e valido)
+        const trackA = parseInt(a.trackNum, 10);
+        const trackB = parseInt(b.trackNum, 10);
+
+        if (!isNaN(trackA) && !isNaN(trackB)) {
+            if (trackA !== trackB) return trackA - trackB; // Ordina per traccia se diverse
+        }
+        // Fallback se numeri traccia uguali o mancanti/non validi
+        if (!isNaN(trackA) && isNaN(trackB)) return -1; // A ha traccia, B no -> A viene prima
+        if (isNaN(trackA) && !isNaN(trackB)) return 1;  // B ha traccia, A no -> B viene prima
+
+        // Fallback finale: ordinamento per titolo (o nome file se titolo non c'è)
+        const titleA = (a.title || a.src || '').toLowerCase(); // Usa src come ulteriore fallback
+        const titleB = (b.title || b.src || '').toLowerCase();
+        return titleA.localeCompare(titleB);
+    });
+}
+
+
+function updatePlaylistUI() {
+     const playlistElement = document.getElementById('playlist'); // Assicurati sia accessibile
+     if (!playlistElement) return;
+
+    playlistElement.innerHTML = ''; // Pulisci la lista attuale
+    playlist.forEach((track, index) => {
+        const li = document.createElement('li');
+        // Mostra numero traccia se disponibile e valido
+        const trackNumDisplay = !isNaN(track.trackNum) && track.trackNum !== null ? `${track.trackNum}. ` : '';
+        li.textContent = `${trackNumDisplay}${track.title || 'Traccia Sconosciuta'} - ${track.album || 'Album Sconosciuto'}`;
+        li.dataset.index = index; // Salva l'indice per il click
+        if (index === currentTrackIndex) {
+            li.classList.add('active');
+        }
+        li.addEventListener('click', () => {
+             const playPauseBtn = document.getElementById('playPauseBtn'); // Assicurati sia accessibile
+            loadTrack(index);
+             const audioPlayer = document.getElementById('audioPlayer'); // Assicurati sia accessibile
+             if (audioPlayer && playPauseBtn) {
+                audioPlayer.play().catch(error => console.error("Errore play da playlist:", error));
+                playPauseBtn.textContent = '⏸️';
+             }
+        });
+        playlistElement.appendChild(li);
+    });
+}
+
+// --- Gestione Barra Avanzamento ---
+function updateSeekBar() {
+    // Assicurati che gli elementi siano accessibili
+    const audioPlayer = document.getElementById('audioPlayer');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const durationDisplay = document.getElementById('duration');
+
+    if (!audioPlayer || !seekBar || !currentTimeDisplay || !durationDisplay) return;
+
+
+    if (!isNaN(audioPlayer.duration)) {
+        seekBar.max = audioPlayer.duration;
+        seekBar.value = audioPlayer.currentTime;
+        currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+        durationDisplay.textContent = formatTime(audioPlayer.duration);
+    } else {
+         // Non resettare sempre qui, potrebbe causare flickering
+         // resetSeekBar(); // Rimuovilo o usalo con cautela
+    }
+}
+
+function resetSeekBar() {
+     // Assicurati che gli elementi siano accessibili
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const durationDisplay = document.getElementById('duration');
+
+    if (!seekBar || !currentTimeDisplay || !durationDisplay) return;
+
+    seekBar.value = 0;
+    // Non impostare max a 1, può causare problemi. Lascialo o imposta a 100 come valore di default
+    seekBar.max = 100;
+    currentTimeDisplay.textContent = "0:00";
+    durationDisplay.textContent = "0:00";
+}
+
+function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return "0:00"; // Gestisci NaN o valori negativi
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+// Assicurati che anche le variabili DOM all'inizio dello script siano definite correttamente
+const audioPlayer = document.getElementById('audioPlayer');
+const albumCover = document.getElementById('albumCover');
+const trackTitle = document.getElementById('trackTitle');
+const albumTitle = document.getElementById('albumTitle');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+// const playlistElement = document.getElementById('playlist'); // Già definita sopra
+const seekBar = document.getElementById('seekBar');
+const currentTimeDisplay = document.getElementById('currentTime');
+const durationDisplay = document.getElementById('duration');
+
+
+// FINE DEL BLOCCO DA INSERIRE
+
 // --- Event Listeners ---
 playPauseBtn.addEventListener('click', playPauseTrack);
 nextBtn.addEventListener('click', nextTrack);
