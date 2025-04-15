@@ -9,10 +9,10 @@
     --button-hover-color: #000;
     --active-playlist-bg: #e0e0e0;
     --playlist-hover-bg: #f5f5f5;
-    --theme-icon: '🌙'; /* Icona per tema chiaro (mostra luna per passare a scuro) */
+    /* --theme-icon: '🌙'; /* Rimosso */
 }
 
-/* Tema Scuro - Applicato quando il body ha la classe 'dark-theme' */
+/* Tema Scuro */
 body.dark-theme {
     --bg-color: #1a1a1a;
     --player-bg-color: #2c2c2c;
@@ -22,7 +22,7 @@ body.dark-theme {
     --button-hover-color: #fff;
     --active-playlist-bg: #4a4a4a;
     --playlist-hover-bg: #3a3a3a;
-    --theme-icon: '☀️'; /* Icona per tema scuro (mostra sole per passare a chiaro) */
+    /* --theme-icon: '☀️'; /* Rimosso */
 }
 
 /* --- Stili Generali --- */
@@ -35,7 +35,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    transition: background-color 0.3s, color 0.3s; /* Transizione fluida */
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .player-container {
@@ -57,12 +57,12 @@ body {
     margin-bottom: 20px;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border: 1px solid var(--border-color); /* Aggiunge bordo leggero */
+    border: 1px solid var(--border-color);
 }
 
 .track-info {
     margin-bottom: 20px;
-    min-height: 4em; /* Altezza minima per evitare salti */
+     min-height: 4em;
 }
 
 #trackTitle {
@@ -81,28 +81,27 @@ body {
     width: 100%;
     margin-bottom: 5px;
     cursor: pointer;
-    accent-color: var(--text-muted-color); /* Colore base per la barra (moderno) */
+    accent-color: var(--text-muted-color);
 }
 
-/* Stili più specifici per personalizzazione seek bar (opzionale) */
+/* Stili più specifici per personalizzazione seek bar */
 input[type=range] {
-  height: 18px; /* Aumenta area cliccabile */
-  -webkit-appearance: none; /* Rimuovi stile default WebKit */
+  height: 18px;
+  -webkit-appearance: none;
   appearance: none;
-  background: transparent; /* Sfondo trasparente, lo facciamo con track */
+  background: transparent;
   width: 100%;
 }
 
 input[type=range]:focus {
-  outline: none; /* Rimuovi outline focus */
+  outline: none;
 }
 
-/* Track */
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 4px;
   cursor: pointer;
-  background: var(--border-color); /* Colore traccia */
+  background: var(--border-color);
   border-radius: 2px;
 }
 input[type=range]::-moz-range-track {
@@ -113,7 +112,6 @@ input[type=range]::-moz-range-track {
   border-radius: 2px;
 }
 
-/* Thumb (pallino) */
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -121,9 +119,9 @@ input[type=range]::-webkit-slider-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: var(--text-color); /* Colore pallino */
+  background: var(--text-color);
   cursor: pointer;
-  margin-top: -5px; /* Centra verticalmente sulla traccia */
+  margin-top: -5px;
 }
 input[type=range]::-moz-range-thumb {
   height: 14px;
@@ -142,38 +140,35 @@ input[type=range]::-moz-range-thumb {
 }
 
 .controls {
-    margin-bottom: 25px; /* Spazio prima della playlist */
+    margin-bottom: 25px;
+    display: flex; /* Usa flexbox per allineare i pulsanti */
+    justify-content: center; /* Centra orizzontalmente i pulsanti */
+    align-items: center; /* Allinea verticalmente i pulsanti */
 }
 
 .controls button {
     background: none;
     border: none;
-    font-size: 2em; /* Dimensione icone play/prev/next */
-    margin: 0 15px;
+    font-size: 2em;
+    margin: 0 10px; /* Riduci margine per fare spazio al pulsante tema */
     cursor: pointer;
     color: var(--text-muted-color);
     transition: color 0.2s;
-    vertical-align: middle; /* Allinea verticalmente con pulsante tema */
+     padding: 5px; /* Aggiungi un po' di padding per area click */
 }
 
 .controls button:hover {
     color: var(--button-hover-color);
 }
 
-/* Stile specifico per il pulsante tema */
+/* Stile specifico per il pulsante tema (rimuovi ::before) */
 #themeToggleBtn {
-    font-size: 1.5em; /* Dimensione icona tema */
-    padding: 0; /* Rimuovi padding extra */
-    line-height: 1; /* Assicura che l'icona non sfalsi l'altezza */
+    font-size: 1.5em; /* Dimensione icona */
     margin-left: 15px; /* Spazio dagli altri controlli */
-    width: 30px; /* Larghezza fissa per evitare scatti */
-    text-align: center;
+    padding: 5px; /* Mantieni padding come gli altri pulsanti */
+    line-height: 1; /* Aiuta allineamento verticale */
 }
-/* Icona tema (luna/sole) */
-#themeToggleBtn::before {
-    content: var(--theme-icon); /* Usa variabile per l'icona */
-    display: inline-block;
-}
+/* Rimuovi la regola #themeToggleBtn::before */
 
 
 .playlist-section {
@@ -190,21 +185,19 @@ input[type=range]::-moz-range-thumb {
 #playlist {
     list-style: none;
     padding: 0;
-    /* --- MODIFICA: Rimosse le righe max-height e overflow-y --- */
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    margin-bottom: 10px; /* Margine sotto la lista */
+    margin-bottom: 10px;
     background-color: var(--player-bg-color);
 }
 
 #playlist li {
-    padding: 10px 12px; /* Aggiusta padding */
+    padding: 10px 12px;
     border-bottom: 1px solid var(--border-color);
     cursor: pointer;
     transition: background-color 0.2s;
     font-size: 0.9em;
     color: var(--text-color);
-    /* Evita che testo lungo vada a capo male */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -221,6 +214,4 @@ input[type=range]::-moz-range-thumb {
 #playlist li.active {
     background-color: var(--active-playlist-bg);
     font-weight: bold;
-    /* Assicurati che il colore del testo rimanga leggibile sul bg attivo */
-    /* color: var(--text-color); /* Già impostato sopra, ma per sicurezza */
 }
