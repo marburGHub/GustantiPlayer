@@ -23,8 +23,8 @@ const audioFiles = [
     'audio/2 - La Forza Gentile.mp3',
     'audio/3 - Vineyard Driver.mp3',
     'audio/4 - Giardino dei colori.mp3',
-    "audio/5 - L'imbianchino e il campione.mp3",
-    "audio/6 - L'Alchimista dei Sensi.mp3",
+    "audio/5 - L'imbianchino e il campione.mp3", // Usa doppie virgolette per apostrofi
+    "audio/6 - L'Alchimista dei Sensi.mp3",    // Usa doppie virgolette per apostrofi
     'audio/7 - Digital Renaissance Man.mp3',
     'audio/8 - Gustanti Viaggiatori.mp3'
 ];
@@ -33,7 +33,16 @@ const audioFiles = [
 function setTheme(theme) {
     document.body.classList.toggle('dark-theme', theme === 'dark');
     localStorage.setItem('audioPlayerTheme', theme);
-    // L'icona si aggiorna via CSS (var --theme-icon)
+
+    // --- MODIFICA QUI: Aggiorna il testo del pulsante in base al tema ---
+    if (themeToggleBtn) {
+        if (theme === 'dark') {
+            themeToggleBtn.textContent = '☀️'; // Se è tema scuro, mostra il sole (per passare a chiaro)
+        } else {
+            themeToggleBtn.textContent = '🌙'; // Se è tema chiaro, mostra la luna (per passare a scuro)
+        }
+    }
+    // --- FINE MODIFICA ---
 }
 
 function toggleTheme() {
@@ -132,7 +141,6 @@ function loadTrack(index) {
 
 function playTrack() {
     if (!audioPlayer || !playPauseBtn) return;
-     // Controlla se siamo alla fine, in tal caso riavvolgi prima di play
      if (audioPlayer.ended) {
         audioPlayer.currentTime = 0;
     }
@@ -159,26 +167,26 @@ function playPauseToggle() {
     }
 }
 
-function nextTrack(playImmediately = true) { // Aggiunto parametro per controllare autoplay
+function nextTrack(playImmediately = true) {
     if (playlist.length === 0) return;
     let newIndex = currentTrackIndex + 1;
     if (newIndex >= playlist.length) {
         newIndex = 0; // Loop
     }
     loadTrack(newIndex);
-    if (playImmediately) { // Avvia solo se richiesto (default: sì)
+    if (playImmediately) {
         playTrack();
     }
 }
 
-function prevTrack(playImmediately = true) { // Aggiunto parametro per controllare autoplay
+function prevTrack(playImmediately = true) {
     if (playlist.length === 0) return;
     let newIndex = currentTrackIndex - 1;
     if (newIndex < 0) {
         newIndex = playlist.length - 1; // Loop
     }
     loadTrack(newIndex);
-    if (playImmediately) { // Avvia solo se richiesto (default: sì)
+    if (playImmediately) {
          playTrack();
     }
 }
@@ -244,17 +252,18 @@ function formatTime(seconds) {
 // --- Event Listeners ---
 function setupEventListeners() {
     if (playPauseBtn) playPauseBtn.addEventListener('click', playPauseToggle);
-    if (nextBtn) nextBtn.addEventListener('click', () => nextTrack(true)); // Passa true per autoplay
-    if (prevBtn) prevBtn.addEventListener('click', () => prevTrack(true)); // Passa true per autoplay
+    if (nextBtn) nextBtn.addEventListener('click', () => nextTrack(true));
+    if (prevBtn) prevBtn.addEventListener('click', () => prevTrack(true));
+    // Event listener per il pulsante tema
     if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
 
     if (audioPlayer) {
-        audioPlayer.addEventListener('ended', () => nextTrack(true)); // Autoplay alla fine della traccia
+        audioPlayer.addEventListener('ended', () => nextTrack(true));
         audioPlayer.addEventListener('timeupdate', updateSeekBar);
         audioPlayer.addEventListener('loadedmetadata', updateSeekBar);
         audioPlayer.addEventListener('error', () => {
             console.error("Errore elemento Audio:", audioPlayer.error);
-            pauseTrack(); // Metti in pausa e aggiorna UI
+            pauseTrack();
             resetSeekBar();
         });
     }
@@ -270,13 +279,13 @@ function setupEventListeners() {
 
 // --- Inizializzazione ---
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Applica tema salvato
-    const savedTheme = localStorage.getItem('audioPlayerTheme') || 'light'; // Default a chiaro
-    setTheme(savedTheme);
+    // 1. Applica tema salvato O tema di default (chiaro)
+    const savedTheme = localStorage.getItem('audioPlayerTheme') || 'light';
+    setTheme(savedTheme); // Questo ora imposta anche l'icona corretta sul pulsante
 
     // 2. Imposta gli event listener
     setupEventListeners();
 
-    // 3. Inizializza la playlist (carica metadati, popola UI)
+    // 3. Inizializza la playlist
     initializePlaylist();
 });
