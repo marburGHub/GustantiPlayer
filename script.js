@@ -13,8 +13,8 @@ const audioFiles = [
     'audio/2 - La Forza Gentile.mp3',
     'audio/3 - Vineyard Driver.mp3',
     'audio/4 - Giardino dei colori.mp3',
-    'audio/5 - L'imbianchino e il campione.mp3',
-    'audio/6 - L'Alchimista dei Sensi.mp3',
+    "audio/5 - L'imbianchino e il campione.mp3",
+    "audio/6 - L'Alchimista dei Sensi.mp3",
     'audio/7 - Digital Renaissance Man.mp3',
     'audio/8 - Gustanti Viaggiatori.mp3'
     // Aggiungi gli altri
