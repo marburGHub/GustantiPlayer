@@ -9,14 +9,14 @@ const defaultCover = 'default-cover.png';
 // --- PLAYLIST PREDEFINITA ---
 // Elenca qui i percorsi relativi ai tuoi file audio nella cartella 'audio'
 const audioFiles = [
-    'audio/01 - Nome Canzone Uno.mp3', // Assicurati che i nomi file corrispondano ESATTAMENTE
-    'audio/02 - Seconda Traccia.mp3',
-    'audio/03 - Altro Brano.mp3',
-    'audio/04 - Titolo Esempio.mp3',
-    'audio/05 - Canzone_Speciale.mp3',
-    'audio/06 - La Sesta.mp3',
-    'audio/07 - Traccia_Numero_7.mp3',
-    'audio/08 - Ultima.mp3'
+    'audio/1 - Intro.mp3', // Assicurati che i nomi file corrispondano ESATTAMENTE
+    'audio/2 - La Forza Gentile.mp3',
+    'audio/3 - Vineyard Driver.mp3',
+    'audio/4 - Giardino dei colori.mp3',
+    'audio/5 - L'imbianchino e il campione.mp3',
+    'audio/6 - L'Alchimista dei Sensi.mp3',
+    'audio/7 - Digital Renaissance Man.mp3',
+    'audio/8 - Gustanti Viaggiatori.mp3'
     // Aggiungi gli altri
 ];
 
