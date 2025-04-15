@@ -10,14 +10,13 @@
     <div class="player-container">
         <!-- Area Copertina -->
         <div class="cover-art">
-            <!-- L'immagine viene aggiornata da JS. 'default-cover.png' è l'immagine iniziale -->
             <img id="albumCover" src="default-cover.png" alt="Copertina Album">
         </div>
 
         <!-- Informazioni Traccia -->
         <div class="track-info">
-            <div id="trackTitle">Caricamento...</div> <!-- Testo iniziale -->
-            <div id="albumTitle">---</div>          <!-- Testo iniziale -->
+            <div id="trackTitle">Caricamento...</div>
+            <div id="albumTitle">---</div>
         </div>
 
         <!-- Barra di Avanzamento e Tempi -->
@@ -26,26 +25,20 @@
              <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
         </div>
 
-        <!-- Controlli Principali -->
+        <!-- Controlli Principali e Tema -->
         <div class="controls">
             <button id="prevBtn" title="Traccia Precedente">⏮</button>
             <button id="playPauseBtn" title="Play/Pausa">▶️</button>
             <button id="nextBtn" title="Traccia Successiva">⏭</button>
-            <!-- Potresti aggiungere qui un controllo volume se vuoi -->
-            <!-- <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1" title="Volume"> -->
+            <!-- NUOVO: Pulsante Tema -->
+            <button id="themeToggleBtn" title="Cambia Tema">🌙</button>
         </div>
 
         <!-- Sezione Playlist -->
         <div class="playlist-section">
             <h2>Playlist</h2>
-            <!--
-                La sezione per aggiungere tracce tramite URL è stata rimossa.
-                La playlist viene ora definita in script.js
-            -->
             <ul id="playlist">
                 <!-- Le tracce verranno aggiunte qui dinamicamente da JavaScript -->
-                <!-- Esempio di come apparirà un elemento (generato da JS): -->
-                <!-- <li data-index="0">1. Titolo Canzone - Nome Album</li> -->
             </ul>
         </div>
     </div>
@@ -54,11 +47,9 @@
     <audio id="audioPlayer"></audio>
 
     <!-- Inclusione Libreria per leggere i Tag ID3 -->
-    <!-- Usiamo una CDN (Content Delivery Network) per comodità -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
 
     <!-- Inclusione del tuo script JavaScript principale -->
-    <!-- Assicurati che sia incluso DOPO gli elementi HTML che deve controllare -->
     <script src="script.js"></script>
 </body>
 </html>
